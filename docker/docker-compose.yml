@@ -1,0 +1,24 @@
+services:
+  resource-server:
+    build:
+      context: ../resource-server
+      dockerfile: Dockerfile
+    ports:
+      - "8880:8880"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/resource
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: pass
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+    depends_on:
+      - postgres-db
+  postgres-db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: resource
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+    ports:
+      - "5432:5432"
+    volumes:
+      - ../init-scripts/init-postgres.sql:/docker-entrypoint-initdb.d/init.sql

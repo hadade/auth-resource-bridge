@@ -1,0 +1,29 @@
+ # Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+gradle-app.setti
+# IntelliJ / IDEs
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscod
+# OS / Editor junk
+*.DS_Store
+Thumbs.db
+.env
+*.l
+# Docker
+*.pid
+.docker/
+│
+# Kubernetes config
+kubeconfig.y
+# Compiled
+target/
+out/
+*.class
+*.jar
+*.war
+*.ear
