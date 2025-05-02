@@ -1,0 +1,152 @@
+{
+	"info": {
+		"_postman_id": "e40cfd99-7de2-4384-a871-35bc57a53b14",
+		"name": "AssetResources",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2485654"
+	},
+	"item": [
+		{
+			"name": "List assets",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8880/api/assets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8880",
+					"path": [
+						"api",
+						"assets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get asset",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8880/api/assets/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8880",
+					"path": [
+						"api",
+						"assets",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create asset",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Gold\",\n  \"symbol\": \"GLD\",\n  \"description\": \"gold commodity\",\n  \"type\": \"COMMODITY\",\n  \"price\": 9.9\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8880/api/assets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8880",
+					"path": [
+						"api",
+						"assets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Update asset",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"name\": \"Gold\",\n  \"symbol\": \"GLD\",\n  \"description\": \"gold commodity updated\",\n  \"type\": \"COMMODITY\",\n  \"price\": 10.9\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8880/api/assets/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8880",
+					"path": [
+						"api",
+						"assets",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete asset",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8880/api/assets/2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8880",
+					"path": [
+						"api",
+						"assets",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
