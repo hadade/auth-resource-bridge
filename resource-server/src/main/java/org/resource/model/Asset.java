@@ -6,10 +6,12 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
-@Entity
 @Data
+@Entity
 public class Asset {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,4 +22,7 @@ public class Asset {
     @Enumerated(EnumType.STRING)
     private AssetType type;
     private double price;
+    @ManyToOne
+    @JoinColumn(name="user_id")
+    private User owner;
 }
