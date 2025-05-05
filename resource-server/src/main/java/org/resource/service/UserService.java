@@ -1,6 +1,8 @@
 package org.resource.service;
 
-import org.resource.model.Asset;
+import org.resource.api.rest.dto.UserDto;
+import org.resource.error.ConflictException;
+import org.resource.error.ResourceNotFoundException;
 import org.resource.model.User;
 import org.resource.repository.AssetRepository;
 import org.resource.repository.UserRepository;
@@ -22,8 +24,8 @@ public class UserService {
         this.assetRepository = assetRepository;
     }
 
-    public User saveUser(User user) {
-        return userRepository.save(user);
+    public User saveUser(UserDto user) {
+        return userRepository.save(UserDto.toUser(user));
     }
 
     public List<User> getAllUsers() {
@@ -44,16 +46,21 @@ public class UserService {
 
     public void assignAssetsByUserId(Long userId, Long assetId) {
         userRepository.findById(userId)
-                .ifPresent(user -> assetRepository.findById(assetId)
-                        .ifPresent(asset -> {
-                            if (asset.getOwner() != null) {
-                                throw new RuntimeException("Asset already owned");
-                            }
-                            user.getAssets().add(asset);
-                            asset.setOwner(user);
-                            userRepository.save(user);
-                        })
-                );
+                .ifPresentOrElse(user -> assetRepository.findById(assetId)
+                                .ifPresentOrElse(asset -> {
+                                            if (asset.getOwner() != null) {
+                                                throw new ConflictException("Asset already owned");
+                                            }
+                                            user.getAssets().add(asset);
+                                            asset.setOwner(user);
+                                            userRepository.save(user);
+                                        },
+                                        () -> {
+                                            throw new ResourceNotFoundException("Asset not found");
+                                        }),
+                        () -> {
+                            throw new ResourceNotFoundException("User not found");
+                        });
     }
 
 }

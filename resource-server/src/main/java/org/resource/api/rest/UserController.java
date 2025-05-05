@@ -1,9 +1,9 @@
 package org.resource.api.rest;
 
-import org.resource.model.User;
-import org.resource.service.AssetService;
+import org.resource.api.rest.dto.UserDto;
 import org.resource.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -30,31 +31,32 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.saveUser(user);
+    @ResponseStatus(HttpStatus.CREATED)
+    public UserDto createUser(@RequestBody UserDto user) {
+        return new UserDto(userService.saveUser(user));
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public List<UserDto> getAllUsers() {
+        return userService.getAllUsers().stream().map(UserDto::new).toList();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<User> getUserById(@PathVariable Long id) {
-        Optional<User> user = userService.getUserById(id);
+    public ResponseEntity<UserDto> getUserById(@PathVariable Long id) {
+        Optional<UserDto> user = userService.getUserById(id).map(UserDto::new);
         return user.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @GetMapping("/username/{username}")
-    public ResponseEntity<User> getUserByUsername(@PathVariable String username) {
-        User user = userService.getUserByUsername(username);
+    public ResponseEntity<UserDto> getUserByUsername(@PathVariable String username) {
+        UserDto user = new UserDto(userService.getUserByUsername(username));
         return ResponseEntity.ok(user);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> updateUser(@PathVariable Long id, @RequestBody User user) {
+    public ResponseEntity<UserDto> updateUser(@PathVariable Long id, @RequestBody UserDto user) {
         user.setId(id);
-        User updatedUser = userService.saveUser(user);
+        UserDto updatedUser = new UserDto(userService.saveUser(user));
         return ResponseEntity.ok(updatedUser);
     }
 
@@ -66,13 +68,8 @@ public class UserController {
 
     @PatchMapping("/{id}/assets/{assetId}")
     public ResponseEntity<Void> assignAsset(@PathVariable Long id, @PathVariable Long assetId) {
-        try {
-            userService.assignAssetsByUserId(id, assetId);
-            return ResponseEntity.noContent().build();
-        }
-        catch (RuntimeException e) {
-            return ResponseEntity.badRequest().build();
-        }
+        userService.assignAssetsByUserId(id, assetId);
+        return ResponseEntity.noContent().build();
     }
 
 }

@@ -1,6 +1,9 @@
 package org.resource.service;
 
+import org.resource.api.rest.dto.AssetDto;
+import org.resource.error.ResourceNotFoundException;
 import org.resource.model.Asset;
+import org.resource.model.AssetType;
 import org.resource.repository.AssetRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -26,21 +29,21 @@ public class AssetService {
         return assetRepository.findById(id);
     }
 
-    public Asset createAsset(Asset asset) {
-        return assetRepository.save(asset);
+    public Asset createAsset(AssetDto asset) {
+        return assetRepository.save(AssetDto.toAsset(asset));
     }
 
-    public Asset updateAsset(Long id, Asset updatedAsset) {
+    public Asset updateAsset(Long id, AssetDto updatedAsset) {
         return assetRepository.findById(id)
                 .map(existing -> {
                     existing.setName(updatedAsset.getName());
                     existing.setSymbol(updatedAsset.getSymbol());
                     existing.setDescription(updatedAsset.getDescription());
-                    existing.setType(updatedAsset.getType());
+                    existing.setType(AssetType.valueOf(updatedAsset.getType()));
                     existing.setPrice(updatedAsset.getPrice());
                     return assetRepository.save(existing);
                 })
-                .orElseThrow(() -> new RuntimeException("Asset not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Asset not found"));
     }
 
     public void deleteAsset(Long id) {

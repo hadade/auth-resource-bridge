@@ -9,6 +9,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity
@@ -22,6 +23,7 @@ public class Asset {
     @Enumerated(EnumType.STRING)
     private AssetType type;
     private double price;
+    @ToString.Exclude
     @ManyToOne
     @JoinColumn(name="user_id")
     private User owner;
