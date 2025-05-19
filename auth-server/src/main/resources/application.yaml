@@ -1,0 +1,9 @@
+graphql:
+  servlet:
+    mapping: /graphql
+    enabled: true
+  
+server:
+  port: 8881
+  error:
+    include-message: always

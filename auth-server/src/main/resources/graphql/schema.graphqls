@@ -1,0 +1,16 @@
+type Mutation {
+  login(request: AuthRequestInput!): AuthResponse
+}
+
+input AuthRequestInput {
+  username: String!
+  password: String!
+}
+
+type AuthResponse {
+  token: String!
+}
+
+type Query {
+  hello: String
+}

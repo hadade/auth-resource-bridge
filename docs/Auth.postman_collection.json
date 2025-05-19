@@ -1,0 +1,62 @@
+{
+	"info": {
+		"_postman_id": "2801cd40-baab-416a-b353-b9b76eed23b4",
+		"name": "Auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "2485654"
+	},
+	"item": [
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation { \n    login(request: { username: \"user\", password: \"password\" }) { \n        token \n    } \n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8881/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8881",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Hello",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "query {\n  hello\n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8881/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8881",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
