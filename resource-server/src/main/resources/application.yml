@@ -16,3 +16,7 @@ server:
   port: 8880
   error:
     include-message: always
+
+auth:
+  graphql:
+    url: http://localhost:8881/graphql

@@ -7,14 +7,40 @@
 	},
 	"item": [
 		{
-			"name": "Login",
+			"name": "Generate Token",
 			"request": {
 				"method": "POST",
 				"header": [],
 				"body": {
 					"mode": "graphql",
 					"graphql": {
-						"query": "mutation { \n    login(request: { username: \"user\", password: \"password\" }) { \n        token \n    } \n}",
+						"query": "mutation { \n    generateToken(request: { username: \"user\", password: \"password\" }) { \n        token \n    } \n}",
+						"variables": ""
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8881/graphql",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8881",
+					"path": [
+						"graphql"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Validate Token",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "graphql",
+					"graphql": {
+						"query": "mutation { \n    validateToken(request: { token: \"eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQ3OTI1ODQ2LCJleHAiOjE3NDc5Mjk0NDZ9.Qd00gw957ecvHpsRGq68dYsR9kTs-ixTSBgwWvX_SQM\" }) { \n        valid\n        username\n    } \n}",
 						"variables": ""
 					}
 				},
@@ -35,6 +61,16 @@
 		{
 			"name": "Hello",
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQ3OTE5MjE3LCJleHAiOjE3NDc5MjI4MTd9.qfiF7Fjpr_TA2tYvTEoFztua1OxgBUmLtD357PyyeRE",
+							"type": "string"
+						}
+					]
+				},
 				"method": "POST",
 				"header": [],
 				"body": {

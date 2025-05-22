@@ -12,6 +12,16 @@
 				"disableBodyPruning": true
 			},
 			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIiwiaWF0IjoxNzQ3OTI1ODQ2LCJleHAiOjE3NDc5Mjk0NDZ9.Qd00gw957ecvHpsRGq68dYsR9kTs-ixTSBgwWvX_SQM",
+							"type": "string"
+						}
+					]
+				},
 				"method": "GET",
 				"header": [],
 				"body": {

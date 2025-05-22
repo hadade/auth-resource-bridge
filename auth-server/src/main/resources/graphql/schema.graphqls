@@ -1,8 +1,13 @@
 type Mutation {
-  login(request: AuthRequestInput!): AuthResponse
+  generateToken(request: AuthRequest!): AuthResponse!
+  validateToken(request: TokenValidationRequest!): TokenValidationResponse!
 }
 
-input AuthRequestInput {
+type Query {
+  hello: String
+}
+
+input AuthRequest {
   username: String!
   password: String!
 }
@@ -11,6 +16,11 @@ type AuthResponse {
   token: String!
 }
 
-type Query {
-  hello: String
+input TokenValidationRequest {
+  token: String!
+}
+
+type TokenValidationResponse {
+  valid: Boolean!
+  username: String!
 }

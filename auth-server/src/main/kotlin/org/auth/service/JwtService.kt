@@ -1,11 +1,10 @@
 package org.auth.service
 
-import io.jsonwebtoken.JwtException
+import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.security.Keys
 import org.springframework.stereotype.Service
-import java.util.Base64
-import java.util.Date
+import java.util.*
 import javax.crypto.SecretKey
 
 @Service
@@ -29,19 +28,17 @@ class JwtService {
                 .compact()
     }
 
-    fun validateToken(token: String): String? {
-        return try {
-            val claims = Jwts.parser()
-                    .verifyWith(key)
-                    .build()
-                    .parseSignedClaims(token)
-                    .payload
+    fun isTokenExpired(token: String): Boolean {
+        val expiration = extractClaims(token).expiration
+        return expiration.before(Date())
+    }
 
-            claims.subject
-        } catch (ex: JwtException) {
-            println("Token validation failed: ${ex.message}")
-            null
-        }
+    fun extractClaims(token: String): Claims {
+        return Jwts.parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .payload
     }
 
     fun extractUsername(token: String): String {
