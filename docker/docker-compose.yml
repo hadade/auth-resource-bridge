@@ -22,3 +22,27 @@ services:
       - "5432:5432"
     volumes:
       - ../init-scripts/init-postgres.sql:/docker-entrypoint-initdb.d/init.sql
+
+  auth-server:
+    build:
+      context: ../auth-server
+      dockerfile: Dockerfile
+    ports:
+      - "8881:8881"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mariadb://mysql:3306/auth
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: pass
+    depends_on:
+      - mysql-db
+  mysql-db:
+    image: mariadb:11.8.2
+    environment:
+      MYSQL_DATABASE: auth
+      MYSQL_USER: user
+      MYSQL_PASSWORD: pass
+      MYSQL_ROOT_PASSWORD: pass
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql

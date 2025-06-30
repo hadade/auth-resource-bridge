@@ -1,6 +1,7 @@
 type Mutation {
   generateToken(request: AuthRequest!): AuthResponse!
   validateToken(request: TokenValidationRequest!): TokenValidationResponse!
+  register(request: RegisterRequest!): AuthResponse
 }
 
 type Query {
@@ -24,3 +25,10 @@ type TokenValidationResponse {
   valid: Boolean!
   username: String!
 }
+
+input RegisterRequest {
+  username: String!
+  password: String!
+  email: String!
+}
+

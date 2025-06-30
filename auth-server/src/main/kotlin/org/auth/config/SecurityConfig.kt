@@ -14,7 +14,9 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity
 import org.springframework.security.config.http.SessionCreationPolicy
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.factory.PasswordEncoderFactories
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.web.filter.OncePerRequestFilter
@@ -27,7 +29,7 @@ class SecurityConfig(
     fun authManager(userDetailsService: UserDetailsService): AuthenticationManager {
         val provider = DaoAuthenticationProvider()
         provider.setUserDetailsService(userDetailsService)
-        provider.setPasswordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder())
+        provider.setPasswordEncoder(passwordEncoder())
         return ProviderManager(provider)
     }
 
@@ -57,5 +59,10 @@ class SecurityConfig(
             }
             filterChain.doFilter(request, response)
         }
+    }
+
+    @Bean
+    fun passwordEncoder(): PasswordEncoder {
+        return BCryptPasswordEncoder()
     }
 }
